@@ -1,0 +1,119 @@
+[buildout]
+extensions = mr.developer
+
+extends =
+    https://raw.github.com/collective/buildout.plonetest/master/test-4.3.x.cfg
+
+parts =
+    instance
+
+sources = sources
+
+eggs =
+    Plone
+    Pillow
+    Products.PloneHotfix20151208
+    plone4.csrffixes
+#   custom stuff starts here
+    pcp.contenttypes
+    pcp.cregsync
+    collective.contentstats
+    collective.handleclient
+    Products.AutoUserMakerPASPlugin
+    Products.PloneFormGen
+    z3c.jbot
+    Plone
+#    Pillow  # with pip from wheel insted
+    Products.ATExtensions
+    Products.DocFinderTab
+    collective.contentstats
+    Products.PloneHotfix20151208
+    plone4.csrffixes
+    pcp.contenttypes
+    pcp.cregsync
+    Products.ATBackRef
+    Products.AutoUserMakerPASPlugin
+    Products.ATVocabularyManager
+    raptus.autocompletewidget
+    Products.Poi
+    incf.countryutils
+    Products.PloneFormGen
+    collective.jbot
+    Products.UserAndGroupSelectionWidget
+
+zcml =
+#    plone.reload
+
+
+var-dir=${buildout:directory}/var
+
+backups-dir=${buildout:var-dir}
+
+user=admin:wyGYhr2KQnrk
+
+############################################
+# Debug Options
+# -------------
+# Start Zope/Plone instances in "fg" mode to turn on debug mode;
+# this will dramatically slow Plone.
+#
+# Add-on developers should turn deprecation warnings on
+deprecation-warnings = off
+# change verbose-security to "on" for useful security errors while developing
+verbose-security = off
+
+[instance]
+recipe = plone.recipe.zope2instance
+http-address = 8080
+
+eggs = ${buildout:eggs}
+
+[backupcronjob]
+recipe = z3c.recipe.usercrontab
+# every day at 1am 
+times = 0 1 * * *
+command = ${buildout:directory}/bin/backup
+# no regular packing for now
+
+############################################
+# Versions Specification
+# ----------------------
+# Version information supplied here will "pin" Python packages to a particular
+# version number, even when you use the "newest" flag running buildout.
+# Specifying versions for all packages is a good idea and can prevent
+# accidental changes when you add new packages to your buildout.
+# Note that versions specified here will override those specified earlier
+# in the configuration, including those from the Plone and Zope version
+# config files.
+#
+[versions]
+bobtemplates.plone = 0.11
+buildout.sanitycheck = 1.0.2
+collective.checkdocs = 0.2
+collective.recipe.backup = 2.20
+cssselect = 0.9.1
+MarkupSafe = 0.23
+mr.bob = 0.1.2
+Pillow = 2.9.0
+plone.keyring = 3.0.1
+plone.locking = 2.0.9
+plone.protect = 3.0.17
+plone.recipe.unifiedinstaller = 4.3.2
+plone4.csrffixes = 1.0.9
+Products.DocFinderTab = 1.0.5
+Products.PloneHotfix20151208 = 1.0
+setuptools = 18.3.2
+zc.buildout = 2.4.3
+zest.pocompile = 1.4
+z3c.recipe.usercrontab = 1.4
+Products.PloneFormGen = 1.7.19
+z3c.jbot = 0.7.2
+plone.protect = 3.0.11
+#Products.ATExtensions = 1.1a3
+setuptools =
+zc.buildout = 
+plone.app.jquery = 1.11.2
+plone.app.jquerytools = 1.7.0
+collective.js.bootstrap = 3.3.5
+Products.PloneFormGen = 1.7.19
+
